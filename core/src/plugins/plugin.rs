@@ -6,8 +6,8 @@ use structopt::StructOpt;
 use super::plugin_info::PluginInfo;
 
 /// Trait, which describe basic plugin interface.
-pub trait Plugin: PluginInfo + Any + Send {
+pub trait Plugin: PluginInfo + Any + Sync {
     fn new<C>(_name: Option<&str>, _shared_state: SharedState<C>) -> Self
     where
-        Self: Sized, C: StructOpt + Clone + Send;
+        Self: Sized, C: StructOpt + Clone + Sync;
 }
