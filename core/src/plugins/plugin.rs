@@ -9,5 +9,5 @@ use super::plugin_info::PluginInfo;
 pub trait Plugin: PluginInfo + Any + Send {
     fn new<C>(_name: Option<&str>, _shared_state: SharedState<C>) -> Self
     where
-        Self: Sized, C: StructOpt + Clone;
+        Self: Sized, C: StructOpt + Clone + Send;
 }

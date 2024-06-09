@@ -40,7 +40,7 @@ impl PluginsContext {
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
 #[derive(Clone)]
-pub struct SharedState<C: StructOpt + Clone> {
+pub struct SharedState<C: StructOpt + Clone + Send> {
     pub name: String,
     pub version: String,
     pub current_executable_hash: String,
@@ -51,7 +51,7 @@ pub struct SharedState<C: StructOpt + Clone> {
     pub last_heartbeat_timestamp: Arc<Mutex<Instant>>,
 }
 
-impl<C: StructOpt + Clone> SharedState<C> {
+impl<C: StructOpt + Clone + Send> SharedState<C> {
     #[must_use]
     pub fn from_config(name: &str, version: &str, config: &C) -> Self where C: Serialize {
         let current_executable_hash = if cfg!(not(debug_assertions)) {
