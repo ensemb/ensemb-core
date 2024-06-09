@@ -1,0 +1,8 @@
+[workspace]
+default-members = ["oracle"]
+
+members = [
+    "core",
+    "logging",
+    "logging/config",
+]

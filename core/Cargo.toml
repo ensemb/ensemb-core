@@ -1,0 +1,30 @@
+[package]
+name = "oracle-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "=0.1.80"
+downcast-rs = "=1.2.1"
+ethereum-types = "0.14.1"
+failure = "=0.1.8"
+futures-locks = "=0.7.1"
+hex = "=0.4.3"
+jsonrpsee = { version = "0.23.0", features = ["full"] }
+keccak-hash = "0.10.0"
+libloading = "=0.8.3"
+parity-crypto = { version = "0.9.0", features = ["publickey"] }
+parity-util-mem = "0.12.0"
+path-clean = "=1.0.1"
+primitive-types = "=0.12.2"
+oracle-config = { path = "../config" }
+rlp = "=0.5.2"
+rustc-hex = "=2.1.0"
+serde = { version = "=1.0.203", features = ["derive"] }
+serde_json = "=1.0.117"
+serde_repr = "0.1.19"
+sha1 = "=0.11.0-pre.3"
+sysinfo = "=0.30.12"
+tokio = { version = "=1.38.0", features = ["full"] }
+tonic = { version = "=0.11.0" }
+shellish_parse = "2.2.0"
