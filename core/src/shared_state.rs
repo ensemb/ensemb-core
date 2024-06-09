@@ -40,7 +40,7 @@ impl PluginsContext {
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
 #[derive(Clone)]
-pub struct SharedState<C: StructOpt + Clone + Sync> {
+pub struct SharedState<C: StructOpt + Clone + Send + Sync> {
     pub name: String,
     pub version: String,
     pub current_executable_hash: String,
