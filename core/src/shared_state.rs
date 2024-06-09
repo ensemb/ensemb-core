@@ -5,10 +5,9 @@ use serde::Serialize;
 use tokio::sync::{Mutex, RwLock, RwLockReadGuard};
 use tokio::time::Instant;
 
-use oracle_config::prelude::Config;
-
 use crate::plugins::prelude::*;
 use crate::utils::calculate_current_executable_hash;
+use structopt::StructOpt;
 
 pub enum PluginType {
     Workers,
@@ -41,20 +40,20 @@ impl PluginsContext {
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
 #[derive(Clone)]
-pub struct SharedState {
+pub struct SharedState<C: StructOpt + Clone> {
     pub name: String,
     pub version: String,
     pub current_executable_hash: String,
-    pub config: Arc<Config>,
+    pub config: Arc<C>,
     pub shutdown_requested: Arc<AtomicBool>,
     pub plugins: Arc<RwLock<PluginsContext>>,
     pub sys_stats: Arc<Mutex<sysinfo::System>>,
     pub last_heartbeat_timestamp: Arc<Mutex<Instant>>,
 }
 
-impl SharedState {
+impl<C: StructOpt + Clone> SharedState<C> {
     #[must_use]
-    pub fn from_config(name: &str, version: &str, config: &Config) -> Self {
+    pub fn from_config(name: &str, version: &str, config: &C) -> Self where C: Serialize {
         let current_executable_hash = if cfg!(not(debug_assertions)) {
             calculate_current_executable_hash()
         } else {
@@ -76,7 +75,7 @@ impl SharedState {
     /// # Panics
     ///
     /// Will panic if there is not plugin named by `plugin_name`
-    pub async fn set_worker_config<C>(&self, plugin_name: &str, config: C)
+    pub async fn set_worker_config(&self, plugin_name: &str, config: C)
     where
         C: Serialize,
     {

@@ -1,12 +1,13 @@
 use std::any::Any;
 
 use crate::shared_state::SharedState;
+use structopt::StructOpt;
 
 use super::plugin_info::PluginInfo;
 
 /// Trait, which describe basic plugin interface.
 pub trait Plugin: PluginInfo + Any + Send {
-    fn new(_name: Option<&str>, _shared_state: SharedState) -> Self
+    fn new<C>(_name: Option<&str>, _shared_state: SharedState<C>) -> Self
     where
-        Self: Sized;
+        Self: Sized, C: StructOpt + Clone;
 }
