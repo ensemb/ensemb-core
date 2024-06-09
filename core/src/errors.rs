@@ -1,7 +1,9 @@
-use serde_json::Error as SerdeError;
-use shellish_parse::ParseError;
 use std::fmt::{Display, Formatter};
 use std::io::Error as IoError;
+use std::num::ParseIntError;
+
+use serde_json::Error as SerdeError;
+use shellish_parse::ParseError;
 use tonic::transport::Error as TonicTransportError;
 
 pub type Result<T> = std::result::Result<T, OracleError>;
@@ -13,6 +15,7 @@ pub enum OracleError {
     ParseError(ParseError),
     SerdeError(SerdeError),
     TonicTransportError(TonicTransportError),
+    ParseIntError(ParseIntError),
 }
 
 impl Display for OracleError {
@@ -23,6 +26,7 @@ impl Display for OracleError {
             OracleError::ParseError(e) => write!(f, "Parse error: {}", e),
             OracleError::SerdeError(e) => write!(f, "Serde error: {}", e),
             OracleError::TonicTransportError(e) => write!(f, "Tonic Transport error: {}", e),
+            OracleError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
         }
     }
 }
@@ -48,5 +52,11 @@ impl From<TonicTransportError> for OracleError {
 impl From<SerdeError> for OracleError {
     fn from(e: SerdeError) -> Self {
         Self::SerdeError(e)
+    }
+}
+
+impl From<ParseIntError> for OracleError {
+    fn from(e: ParseIntError) -> Self {
+        Self::ParseIntError(e)
     }
 }
