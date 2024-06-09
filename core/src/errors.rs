@@ -1,8 +1,7 @@
-use std::fmt::{Display, Formatter};
-use std::io::Error as IoError;
-
 use serde_json::Error as SerdeError;
 use shellish_parse::ParseError;
+use std::fmt::{Display, Formatter};
+use std::io::Error as IoError;
 use tonic::transport::Error as TonicTransportError;
 
 pub type Result<T> = std::result::Result<T, OracleError>;

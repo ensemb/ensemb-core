@@ -1,13 +1,12 @@
+use serde::Serialize;
+use serde_json::Value;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
-
-use serde::Serialize;
 use tokio::sync::{Mutex, RwLock, RwLockReadGuard};
 use tokio::time::Instant;
 
 use crate::plugins::prelude::*;
 use crate::utils::calculate_current_executable_hash;
-use structopt::StructOpt;
 
 pub enum PluginType {
     Workers,
@@ -40,20 +39,23 @@ impl PluginsContext {
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
 #[derive(Clone)]
-pub struct SharedState<C: StructOpt + Clone + Send + Sync> {
+pub struct SharedState {
     pub name: String,
     pub version: String,
     pub current_executable_hash: String,
-    pub config: Arc<C>,
+    pub config: Arc<Value>,
     pub shutdown_requested: Arc<AtomicBool>,
     pub plugins: Arc<RwLock<PluginsContext>>,
     pub sys_stats: Arc<Mutex<sysinfo::System>>,
     pub last_heartbeat_timestamp: Arc<Mutex<Instant>>,
 }
 
-impl<C: StructOpt + Clone + Send + Sync> SharedState<C> {
+impl SharedState {
     #[must_use]
-    pub fn from_config(name: &str, version: &str, config: &C) -> Self where C: Serialize {
+    pub fn from_config<C>(name: &str, version: &str, config: C) -> Self
+    where
+        C: Serialize,
+    {
         let current_executable_hash = if cfg!(not(debug_assertions)) {
             calculate_current_executable_hash()
         } else {
@@ -64,7 +66,7 @@ impl<C: StructOpt + Clone + Send + Sync> SharedState<C> {
             name: name.to_string(),
             version: version.to_string(),
             current_executable_hash,
-            config: Arc::new(config.clone()),
+            config: Arc::new(serde_json::to_value(config).unwrap()),
             shutdown_requested: Arc::new(AtomicBool::new(false)),
             plugins: Arc::new(RwLock::new(PluginsContext::default())),
             sys_stats: Arc::new(Mutex::new(sysinfo::System::new())),
@@ -75,7 +77,7 @@ impl<C: StructOpt + Clone + Send + Sync> SharedState<C> {
     /// # Panics
     ///
     /// Will panic if there is not plugin named by `plugin_name`
-    pub async fn set_worker_config(&self, plugin_name: &str, config: C)
+    pub async fn set_worker_config<C>(&self, plugin_name: &str, config: C)
     where
         C: Serialize,
     {
