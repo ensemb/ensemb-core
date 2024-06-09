@@ -51,7 +51,7 @@ pub struct SharedState<C: StructOpt + Clone + Sync> {
     pub last_heartbeat_timestamp: Arc<Mutex<Instant>>,
 }
 
-impl<C: StructOpt + Clone + Sync> SharedState<C> {
+impl<C: StructOpt + Clone + Send + Sync> SharedState<C> {
     #[must_use]
     pub fn from_config(name: &str, version: &str, config: &C) -> Self where C: Serialize {
         let current_executable_hash = if cfg!(not(debug_assertions)) {
