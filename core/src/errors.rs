@@ -13,9 +13,9 @@ pub enum OracleError {
     CustomError(String),
     IoError(IoError),
     ParseError(ParseError),
+    ParseIntError(ParseIntError),
     SerdeError(SerdeError),
     TonicTransportError(TonicTransportError),
-    ParseIntError(ParseIntError),
 }
 
 impl Display for OracleError {
@@ -24,9 +24,9 @@ impl Display for OracleError {
             OracleError::CustomError(e) => write!(f, "Custom error: {}", e),
             OracleError::IoError(e) => write!(f, "IO error: {}", e),
             OracleError::ParseError(e) => write!(f, "Parse error: {}", e),
+            OracleError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
             OracleError::SerdeError(e) => write!(f, "Serde error: {}", e),
             OracleError::TonicTransportError(e) => write!(f, "Tonic Transport error: {}", e),
-            OracleError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
         }
     }
 }
@@ -37,15 +37,15 @@ impl From<IoError> for OracleError {
     }
 }
 
-impl From<ParseError> for OracleError {
-    fn from(e: ParseError) -> Self {
-        Self::ParseError(e)
+impl From<ParseIntError> for OracleError {
+    fn from(e: ParseIntError) -> Self {
+        Self::ParseIntError(e)
     }
 }
 
-impl From<TonicTransportError> for OracleError {
-    fn from(e: TonicTransportError) -> Self {
-        Self::TonicTransportError(e)
+impl From<ParseError> for OracleError {
+    fn from(e: ParseError) -> Self {
+        Self::ParseError(e)
     }
 }
 
@@ -55,8 +55,8 @@ impl From<SerdeError> for OracleError {
     }
 }
 
-impl From<ParseIntError> for OracleError {
-    fn from(e: ParseIntError) -> Self {
-        Self::ParseIntError(e)
+impl From<TonicTransportError> for OracleError {
+    fn from(e: TonicTransportError) -> Self {
+        Self::TonicTransportError(e)
     }
 }

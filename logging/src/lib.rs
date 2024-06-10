@@ -10,8 +10,8 @@ pub mod macros;
 pub mod prelude {
     pub use tracing::{debug, error, info, trace, warn};
 
-    pub use super::*;
     pub use super::init_logging;
+    pub use super::*;
 }
 
 pub fn init_logging(logging_config: &LoggingConfig) {

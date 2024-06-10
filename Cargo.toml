@@ -5,4 +5,11 @@ members = [
     "core",
     "logging",
     "logging/config",
+    "plugins/private_grpc_listener_config",
+    "plugins/private_incoming_handler_config",
+    "plugins/private_rpc_listener_config",
+    "plugins/public_grpc_listener_config",
+    "plugins/public_incoming_handler_config",
+    "plugins/public_rpc_listener_config",
+    "plugins/unix_listener_config",
 ]

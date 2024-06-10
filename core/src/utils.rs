@@ -1,9 +1,9 @@
 use path_clean::PathClean;
 use sha1::{Digest, Sha1};
-use std::{fs, io};
 use std::env;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
+use std::{fs, io};
 use tokio::task::JoinHandle;
 
 use crate::errors::OracleError;
