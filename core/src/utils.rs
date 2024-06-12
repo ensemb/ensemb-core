@@ -1,13 +1,14 @@
-use path_clean::PathClean;
-use sha1::{Digest, Sha1};
+use std::{fs, io};
 use std::env;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
-use std::{fs, io};
+
+use path_clean::PathClean;
+use sha1::{Digest, Sha1};
 use tokio::task::JoinHandle;
 
-use crate::errors::OracleError;
-use crate::errors::OracleError::CustomError;
+use crate::errors::DomeRedError;
+use crate::errors::DomeRedError::CustomError;
 
 pub async fn sleep_ms(ms: u64) {
     tokio::time::sleep(Duration::from_millis(ms)).await;
@@ -43,7 +44,9 @@ pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
 ///
 /// Will return `OracleError` if join `handle` returns it or
 /// related thread has been failed for some reason
-pub async fn join_flatten<T>(handle: JoinHandle<Result<T, OracleError>>) -> Result<T, OracleError> {
+pub async fn join_flatten<T>(
+    handle: JoinHandle<Result<T, DomeRedError>>,
+) -> Result<T, DomeRedError> {
     match handle.await {
         Ok(Ok(result)) => Ok(result),
         Ok(Err(err)) => Err(err),

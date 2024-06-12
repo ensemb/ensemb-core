@@ -1,9 +1,9 @@
 [package]
-name = "oracle-logging"
+name = "dome-red-logging"
 version = "0.1.0"
 edition = "2021"
- 
+
 [dependencies]
-oracle-logging-config = { path = "./config" }
+dome-red-logging-config = { path = "./config" }
 tracing = "=0.1.40"
 tracing-subscriber = "=0.3.18"

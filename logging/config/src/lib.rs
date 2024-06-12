@@ -15,6 +15,6 @@ pub struct LoggingConfig {
     #[structopt(short, long, parse(from_occurrences))]
     pub verbose: u8,
 
-    #[structopt(env = "ORACLE_VERBOSE_LEVEL", long)]
+    #[structopt(long)]
     pub env_verbose: Option<String>,
 }

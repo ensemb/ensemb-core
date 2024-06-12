@@ -3,15 +3,15 @@
 
 use std::str::FromStr;
 
-use oracle_logging_config::prelude::*;
+use dome_red_logging_config::prelude::*;
 
 pub mod macros;
 
 pub mod prelude {
     pub use tracing::{debug, error, info, trace, warn};
 
-    pub use super::init_logging;
     pub use super::*;
+    pub use super::init_logging;
 }
 
 pub fn init_logging(logging_config: &LoggingConfig) {
