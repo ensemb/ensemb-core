@@ -1,9 +1,7 @@
+use std::sync::{Arc, atomic::AtomicBool};
+
 use serde::Serialize;
-use serde_json::Value;
-use std::sync::atomic::AtomicBool;
-use std::sync::Arc;
-use tokio::sync::{Mutex, RwLock, RwLockReadGuard};
-use tokio::time::Instant;
+use tokio::sync::{RwLock, RwLockReadGuard};
 
 use crate::plugins::prelude::*;
 use crate::utils::calculate_current_executable_hash;
@@ -38,16 +36,14 @@ impl PluginsContext {
 
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
-#[derive(Clone)]
+#[derive(Default, Clone)]
 pub struct SharedState {
-    pub name: String,
-    pub version: String,
-    pub current_executable_hash: String,
-    pub config: Arc<Value>,
+    pub name: Arc<String>,
+    pub version: Arc<String>,
+    pub current_executable_hash: Arc<String>,
+    pub config: Arc<serde_json::Value>,
     pub shutdown_requested: Arc<AtomicBool>,
     pub plugins: Arc<RwLock<PluginsContext>>,
-    pub sys_stats: Arc<Mutex<sysinfo::System>>,
-    pub last_heartbeat_timestamp: Arc<Mutex<Instant>>,
 }
 
 impl SharedState {
@@ -63,14 +59,12 @@ impl SharedState {
         };
 
         Self {
-            name: name.to_string(),
-            version: version.to_string(),
-            current_executable_hash,
+            name: Arc::new(name.to_string()),
+            version: Arc::new(version.to_string()),
+            current_executable_hash: Arc::new(current_executable_hash.clone()),
             config: Arc::new(serde_json::to_value(config).unwrap()),
             shutdown_requested: Arc::new(AtomicBool::new(false)),
             plugins: Arc::new(RwLock::new(PluginsContext::default())),
-            sys_stats: Arc::new(Mutex::new(sysinfo::System::new())),
-            last_heartbeat_timestamp: Arc::new(Mutex::new(Instant::now())),
         }
     }
 

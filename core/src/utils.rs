@@ -8,7 +8,6 @@ use sha1::{Digest, Sha1};
 use tokio::task::JoinHandle;
 
 use crate::errors::DomeRedError;
-use crate::errors::DomeRedError::CustomError;
 
 pub async fn sleep_ms(ms: u64) {
     tokio::time::sleep(Duration::from_millis(ms)).await;
@@ -50,6 +49,9 @@ pub async fn join_flatten<T>(
     match handle.await {
         Ok(Ok(result)) => Ok(result),
         Ok(Err(err)) => Err(err),
-        Err(err) => Err(CustomError(format!("handling failed: {}", err))),
+        Err(err) => Err(DomeRedError::CustomError(format!(
+            "handling failed: {}",
+            err
+        ))),
     }
 }

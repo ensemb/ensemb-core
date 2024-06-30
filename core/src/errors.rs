@@ -15,6 +15,7 @@ pub enum DomeRedError {
     ParseError(ParseError),
     ParseIntError(ParseIntError),
     SerdeError(SerdeError),
+    StaticError(&'static str),
     TonicTransportError(TonicTransportError),
 }
 
@@ -26,6 +27,7 @@ impl Display for DomeRedError {
             DomeRedError::ParseError(e) => write!(f, "Parse error: {}", e),
             DomeRedError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
             DomeRedError::SerdeError(e) => write!(f, "Serde error: {}", e),
+            DomeRedError::StaticError(e) => write!(f, "Static error: {}", e),
             DomeRedError::TonicTransportError(e) => write!(f, "Tonic Transport error: {}", e),
         }
     }
