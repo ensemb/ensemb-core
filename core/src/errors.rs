@@ -22,12 +22,12 @@ pub enum DomeRedError {
 impl Display for DomeRedError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            DomeRedError::CustomError(e) => write!(f, "Custom error: {}", e),
+            DomeRedError::CustomError(e) => write!(f, "{}", e),
             DomeRedError::IoError(e) => write!(f, "IO error: {}", e),
             DomeRedError::ParseError(e) => write!(f, "Parse error: {}", e),
             DomeRedError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
             DomeRedError::SerdeError(e) => write!(f, "Serde error: {}", e),
-            DomeRedError::StaticError(e) => write!(f, "Static error: {}", e),
+            DomeRedError::StaticError(e) => write!(f, "{}", e),
             DomeRedError::TonicTransportError(e) => write!(f, "Tonic Transport error: {}", e),
         }
     }
