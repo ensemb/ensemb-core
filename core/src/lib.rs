@@ -1,3 +1,5 @@
+#![deny(warnings)]
+#![deny(unused_crate_dependencies)]
 #![forbid(unsafe_code)]
 
 pub mod prelude {
