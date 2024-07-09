@@ -10,8 +10,10 @@ pub mod prelude {
 
 #[derive(Debug, Clone, StructOpt, Serialize, Deserialize)]
 pub struct LoggingConfig {
+    ///
     /// The number of occurrences of the `v/verbose` flag
     /// Verbose mode (-v, -vv, -vvv, etc.)
+    ///
     #[structopt(short, long, parse(from_occurrences))]
     pub verbose: u8,
 

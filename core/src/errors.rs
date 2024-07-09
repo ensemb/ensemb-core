@@ -25,10 +25,10 @@ impl Display for DomeRedError {
             DomeRedError::CustomError(e) => write!(f, "{}", e),
             DomeRedError::IoError(e) => write!(f, "IO error: {}", e),
             DomeRedError::ParseError(e) => write!(f, "Parse error: {}", e),
-            DomeRedError::ParseIntError(e) => write!(f, "ParseIntError error: {}", e),
+            DomeRedError::ParseIntError(e) => write!(f, "Parse int error: {}", e),
             DomeRedError::SerdeError(e) => write!(f, "Serde error: {}", e),
             DomeRedError::StaticError(e) => write!(f, "{}", e),
-            DomeRedError::TonicTransportError(e) => write!(f, "Tonic Transport error: {}", e),
+            DomeRedError::TonicTransportError(e) => write!(f, "Tonic transport error: {}", e),
         }
     }
 }

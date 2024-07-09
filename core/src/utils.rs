@@ -13,7 +13,9 @@ pub async fn sleep_ms(ms: u64) {
     tokio::time::sleep(Duration::from_millis(ms)).await;
 }
 
+///
 /// Get Sha1 hash of current executable file, panics on failure.
+///
 #[must_use]
 pub fn calculate_current_executable_hash() -> String {
     let bin_path = env::current_exe().expect("Unable to get current executable path.");
@@ -25,9 +27,11 @@ pub fn calculate_current_executable_hash() -> String {
     hex::encode(hash)
 }
 
+///
 /// # Errors
 ///
-/// Will return `Err` if it's been failed to get `current_dir`
+/// Will return `Err` if it's been failed to get `current_dir`.
+///
 pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
     let path = path.as_ref();
     let absolute_path = if path.is_absolute() {
@@ -39,10 +43,12 @@ pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
     Ok(absolute_path)
 }
 
+///
 /// # Errors
 ///
 /// Will return `OracleError` if join `handle` returns it or
-/// related thread has been failed for some reason
+/// related thread has been failed for some reason.
+///
 pub async fn join_flatten<T>(
     handle: JoinHandle<Result<T, DomeRedError>>,
 ) -> Result<T, DomeRedError> {

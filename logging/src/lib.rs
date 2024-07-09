@@ -14,8 +14,10 @@ pub mod prelude {
     pub use super::init_logging;
 }
 
+///
+/// Initializes tracing logger.
+///
 pub fn init_logging(logging_config: &LoggingConfig) {
-    // Initialize tracing logger.
     let mut verbose_level = logging_config.env_verbose.clone().unwrap_or_default();
     if logging_config.verbose != 0 {
         verbose_level = logging_config.verbose.to_string();
@@ -29,7 +31,9 @@ pub fn init_logging(logging_config: &LoggingConfig) {
     setup_panics_hook();
 }
 
+///
 /// Setup logging of panics to both stdout and logs.
+///
 fn setup_panics_hook() {
     let original_hook = std::panic::take_hook();
     let log_hook = std::panic::take_hook();

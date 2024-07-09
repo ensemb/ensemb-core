@@ -16,9 +16,11 @@ pub struct PluginsContext {
 }
 
 impl PluginsContext {
+    ///
     /// # Panics
     ///
     /// Will panic if there is not plugin named by `plugin_name`
+    ///
     #[must_use]
     pub fn get_plugin<P>(&self, plugin_type: &PluginType, plugin_name: Option<&str>) -> &P
     where
@@ -34,8 +36,10 @@ impl PluginsContext {
     }
 }
 
+///
 /// Shared state of application.
 /// This structure contains all data, which should be shared between plugins.
+///
 #[derive(Default, Clone)]
 pub struct SharedState {
     pub name: Arc<String>,
@@ -68,9 +72,11 @@ impl SharedState {
         }
     }
 
+    ///
     /// # Panics
     ///
-    /// Will panic if there is not plugin named by `plugin_name`
+    /// Will panic if there is not plugin named by `plugin_name`.
+    ///
     pub async fn set_worker_config<C>(&self, plugin_name: &str, config: C)
     where
         C: Serialize,
