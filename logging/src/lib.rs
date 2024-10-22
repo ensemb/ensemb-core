@@ -4,7 +4,7 @@
 
 use std::str::FromStr;
 
-use dome_red_logging_config::prelude::*;
+use ensemb_logging_config::prelude::*;
 
 pub mod macros;
 

@@ -7,7 +7,7 @@ use path_clean::PathClean;
 use sha1::{Digest, Sha1};
 use tokio::task::JoinHandle;
 
-use crate::errors::DomeRedError;
+use crate::errors::EnsembError;
 
 pub async fn sleep_ms(ms: u64) {
     tokio::time::sleep(Duration::from_millis(ms)).await;
@@ -50,12 +50,12 @@ pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
 /// related thread has been failed for some reason.
 ///
 pub async fn join_flatten<T>(
-    handle: JoinHandle<Result<T, DomeRedError>>,
-) -> Result<T, DomeRedError> {
+    handle: JoinHandle<Result<T, EnsembError>>,
+) -> Result<T, EnsembError> {
     match handle.await {
         Ok(Ok(result)) => Ok(result),
         Ok(Err(err)) => Err(err),
-        Err(err) => Err(DomeRedError::CustomError(format!(
+        Err(err) => Err(EnsembError::CustomError(format!(
             "handling failed: {}",
             err
         ))),
